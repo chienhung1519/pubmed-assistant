@@ -75,7 +75,7 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
 
     data = conn.read(usecols=[0, 1, 2, 3], ttl=0)
-    new_data = pd.DataFrame({"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
+    new_data = pd.DataFrame({"time": [datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
     data.dropna(inplace=True)
     data = pd.concat([data, new_data], axis=0)
     conn.update(data=data)
