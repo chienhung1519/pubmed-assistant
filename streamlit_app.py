@@ -51,5 +51,6 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
             full_response += (response.choices[0].delta.content or "")
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
+        st.markdown(reference(articles))
     st.session_state.messages.append({"role": "assistant", "content": full_response})
     st.session_state.messages.append({"role": "assistant", "content": reference(articles)})
