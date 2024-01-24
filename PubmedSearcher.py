@@ -39,7 +39,7 @@ class PubmedSearcher:
             return None
         abstract = ""
         for abstract_text in tree.findall("Article/Abstract/AbstractText"):
-            abstract += f"{abstract_text.Label}\n" if "Label" in abstract_text.attrib else ""
+            abstract += f"{abstract_text.get('Label')}\n" if "Label" in abstract_text.attrib else ""
             abstract += abstract_text.text
         return abstract
     
