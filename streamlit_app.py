@@ -74,10 +74,10 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
         st.markdown(reference(articles))
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
 
-    # data = conn.read()
-    # new_data = pd.DataFrame({"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
-    # if data is None:
-    #     data = new_data
-    # else:
-    #     data = pd.concat([data, new_data])
-    conn.update(data={"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
+    data = conn.read()
+    new_data = pd.DataFrame({"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
+    if data is None:
+        data = new_data
+    else:
+        data = pd.concat([data, new_data])
+    conn.update(data=data)
