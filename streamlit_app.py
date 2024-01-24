@@ -75,9 +75,12 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
 
     data = conn.read()
+    st.write(data)
     new_data = pd.DataFrame({"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
+    st.write(new_data)
     if data is None:
         data = new_data
     else:
         data = pd.concat([data, new_data], axis=0)
+    st.write(data)
     conn.update(data=data)
