@@ -2,6 +2,7 @@ from openai import OpenAI
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import datetime
+import pandas as pd
 
 from PubmedSearcher import PubmedSearcher
 
@@ -74,7 +75,9 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
 
     data = conn.read()
-    print(data)
-    data.append({"time": datetime.datetime.now(), "user": prompt, "response": full_response, "reference": reference(articles)}, ignore_index=True)
-    print(data)
+    new_data = pd.DataFrame({"time": datetime.datetime.now(), "user": prompt, "response": full_response, "reference": reference(articles)})
+    if data is None:
+        data = new_data
+    else:
+        data = pd.concat([data, new_data])
     conn.update(data=data)
