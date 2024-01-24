@@ -23,7 +23,7 @@ def user_prompt(query, articles):
     return f"According to query: {query}, the relevant research articles are as follows:\n\n{abstracts}.\n\nSummarize all research articles into one paragraph."
 
 def reference(articles):
-    return "Reference:\n" + "\n\n".join([f"- [{article.title}]({article.url})" for article in articles])
+    return "### Reference:\n" + "\n\n".join([f"- [{article.title}]({article.url})" for article in articles])
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -51,7 +51,5 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
             full_response += (response.choices[0].delta.content or "")
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    with st.chat_message("assistant"):
         st.markdown(reference(articles))
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
-    st.session_state.messages.append({"role": "assistant", "content": reference(articles)})
+    st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
