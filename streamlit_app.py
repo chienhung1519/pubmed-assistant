@@ -78,10 +78,8 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
     st.write(data)
     new_data = pd.DataFrame({"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
     st.write(new_data)
-    if data is None:
-        data = new_data
-    else:
-        data.dropna(inplace=True)
-        data = pd.concat([data, new_data], axis=0)
+    data.colums = ["time", "user", "response", "reference"]
+    data.dropna(inplace=True)
+    data = pd.concat([data, new_data], axis=0)
     st.write(data)
     conn.update(data=data)
