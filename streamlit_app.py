@@ -1,5 +1,7 @@
 from openai import OpenAI
 import streamlit as st
+from streamlit_gsheets import GSheetsConnection
+import datetime
 
 from PubmedSearcher import PubmedSearcher
 
@@ -21,6 +23,11 @@ if st.sidebar.button("Clear Chat"):
 def pubmed_searcher():
     return PubmedSearcher()
 searcher = pubmed_searcher()
+
+@st.cache_resource
+def gsheet_connection():
+    return st.connection("gsheets", type=GSheetsConnection)
+conn = gsheet_connection()
 
 def user_prompt(query, articles):
     abstracts = "\n\n".join([article.abstract for article in articles])
@@ -65,3 +72,5 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
         message_placeholder.markdown(full_response)
         st.markdown(reference(articles))
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
+
+    conn.update([datetime.datetime.now(), prompt, full_response, reference(articles)])
