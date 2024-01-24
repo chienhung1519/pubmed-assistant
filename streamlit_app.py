@@ -3,7 +3,7 @@ import streamlit as st
 
 from PubmedSearcher import PubmedSearcher
 
-st.title("Pubmed Assistant")
+st.sidebar.title("Pubmed Assistant")
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
@@ -11,6 +11,9 @@ if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo-1106"
 
 if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if st.sidebar.button("Clear Chat"):
     st.session_state.messages = []
 
 @st.cache_resource
