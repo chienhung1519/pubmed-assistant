@@ -79,5 +79,5 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
     if data is None:
         data = new_data
     else:
-        data = pd.concat([data, new_data])
+        data = pd.concat([data, new_data], axis=0)
     conn.update(data=data)
