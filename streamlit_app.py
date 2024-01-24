@@ -74,7 +74,8 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
         st.markdown(reference(articles))
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
 
-    data = conn.read()
+    data = conn.read(usecols=[0, 1, 2, 3],)
+    data.dropna(inplace=True)
     st.write(data)
     new_data = pd.DataFrame({"time": [datetime.datetime.now()], "user": [prompt], "response": [full_response], "reference": [reference(articles)]})
     st.write(new_data)
