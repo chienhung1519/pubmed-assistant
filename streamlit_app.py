@@ -18,9 +18,9 @@ def pubmed_searcher():
     return PubmedSearcher()
 searcher = pubmed_searcher()
 
-def user_prompt(articles):
+def user_prompt(query, articles):
     abstracts = "\n\n".join([article.abstract for article in articles])
-    return f"Summarize the following research articles:\n\n{abstracts}"
+    return f"According to query: {query}, the relevant research articles are as follows:\n\n{abstracts}.\n\nSummarize all research articles into one paragraph."
 
 def reference(articles):
     return "\n\n".join([f"- {article.title} ({article.url})" for article in articles])
