@@ -73,4 +73,4 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
         st.markdown(reference(articles))
     st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)})"})
 
-    conn.update([datetime.datetime.now(), prompt, full_response, reference(articles)])
+    conn.update(data=[datetime.datetime.now(), prompt, full_response, reference(articles)])
