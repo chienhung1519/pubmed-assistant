@@ -45,7 +45,7 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
-            ] + [{"role": "user", "content": user_prompt(articles)}],
+            ] + [{"role": "user", "content": user_prompt(prompt, articles)}],
             stream=True,
         ):
             full_response += (response.choices[0].delta.content or "")
