@@ -80,4 +80,4 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
         data = new_data
     else:
         data = pd.concat([data, new_data])
-    conn.update(data=new_data)
+    conn.update(data=data)
