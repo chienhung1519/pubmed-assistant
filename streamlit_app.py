@@ -29,6 +29,14 @@ def user_prompt(query, articles):
 def reference(articles):
     return "**Reference**:\n" + "\n\n".join([f"- [{article.title}]({article.url})" for article in articles])
 
+if st.session_state.messages == []:
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": "Hi, I'm your Pubmed Assistant. I can help you find relevant research articles and summarize them for you. Type your query below.",
+        }
+    )
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
