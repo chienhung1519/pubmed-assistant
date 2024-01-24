@@ -23,7 +23,7 @@ def user_prompt(query, articles):
     return f"According to query: {query}, the relevant research articles are as follows:\n\n{abstracts}.\n\nSummarize all research articles into one paragraph."
 
 def reference(articles):
-    return "\n\n".join([f"- {article.title} ({article.url})" for article in articles])
+    return "Reference:\n" + "\n\n".join([f"- [{article.title}]({article.url})" for article in articles])
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
