@@ -45,12 +45,20 @@ class PubmedSearcher:
     
     def concat_authors(self, tree: ET) -> str:
         """Concatenates all authors in a tree"""
+        if tree.find("Article/AuthorList") is None:
+            return None
         authors = ""
         for author in tree.findall("Article/AuthorList/Author"):
             lastname = author.find("LastName").text
             forename = author.find("ForeName").text
             authors += f"{lastname} {forename}, "
         return authors[:-2]
+    
+    def find_doi(self, tree: ET) -> str:
+        """Finds doi in a tree"""
+        if tree.find("Article/ELocationID") is None:
+            return None
+        return tree.find("Article/ELocationID").text
     
     def xml_to_articles(self, tree: ET) -> List[Article]:
         """Converts an xml tree to a list of Article class"""
@@ -61,7 +69,7 @@ class PubmedSearcher:
             title = xml_article.find("Article/ArticleTitle").text
             abstract = self.concat_abstract(xml_article)
             authors = self.concat_authors(xml_article)
-            doi = xml_article.find("Article/ELocationID").text
+            doi = self.find_doi(xml_article)
             url = f"https://pubmed.ncbi.nlm.nih.gov/{id}"
             articles.append(Article(id, title, abstract, authors, doi, url))
         return articles
