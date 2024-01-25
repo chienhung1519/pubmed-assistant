@@ -40,7 +40,7 @@ class PubmedSearcher:
         abstract = ""
         for abstract_text in tree.findall("Article/Abstract/AbstractText"):
             abstract += f"{abstract_text.get('Label')}\n" if "Label" in abstract_text.attrib else ""
-            abstract += abstract_text.text
+            abstract += abstract_text.text if abstract_text.text is not None else ""
         return abstract
     
     def concat_authors(self, tree: ET) -> str:
