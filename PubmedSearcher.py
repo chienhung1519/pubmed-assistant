@@ -27,7 +27,7 @@ class PubmedSearcher:
 
     def search_idlist(self, query: str, retmax: int = 20) -> List:
         """Searches for a query and returns a list of ids"""
-        url = f"{self.base}/esearch.fcgi?db={self.db}&term={query}&retmode=json&retmax={retmax}&usehistory=y"
+        url = f"{self.base}/esearch.fcgi?db={self.db}&term={query}&retmode=json&retmax={retmax}"
         result = requests.get(url)
         result = json.loads(result.text)
         idlist = result["esearchresult"]["idlist"]
