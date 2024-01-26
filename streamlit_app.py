@@ -35,7 +35,7 @@ def user_prompt(query, articles):
     return f"According to query: {query}, the relevant research articles are as follows:\n\n{abstracts}.\n\nSummarize all research articles into one paragraph."
 
 def reference(articles):
-    return "### Reference:\n" + "\n\n".join([f"- [{article.title}]({article.url})" for article in articles])
+    return "\n**Reference**:\n" + "\n\n".join([f"- [{article.title}]({article.url})" for article in articles])
 
 # Setup sidebar
 st.sidebar.title("Pubmed Assistant")
