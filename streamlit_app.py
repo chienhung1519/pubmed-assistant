@@ -84,9 +84,8 @@ if prompt := st.chat_input("Message Pubmed Assistant"):
         ):
             full_response += (response.choices[0].delta.content or "")
             message_placeholder.markdown(full_response + "▌")
-        full_response += f"\n{reference(articles)}"
-        message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+        message_placeholder.markdown(f"{full_response}\n{reference(articles)}")
+    st.session_state.messages.append({"role": "assistant", "content": f"{full_response}\n{reference(articles)}"})
 
     # Update Google Sheets
     data = conn.read(usecols=[0, 1, 2, 3], ttl=0) # ttl=0 to avoid caching
