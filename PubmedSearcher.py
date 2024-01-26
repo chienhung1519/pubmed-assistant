@@ -33,7 +33,7 @@ class PubmedSearcher:
         idlist = result["esearchresult"]["idlist"]
         return idlist
     
-    def concat_abstract(self, tree: ET) -> str:
+    def find_abstract(self, tree: ET) -> str:
         """Concatenates all abstract texts in a tree. Returns None if no abstract is found."""
         if tree.find("Article/Abstract") is None:
             return None
@@ -43,14 +43,14 @@ class PubmedSearcher:
             abstract += abstract_text.text if abstract_text.text is not None else ""
         return abstract
     
-    def concat_authors(self, tree: ET) -> str:
+    def find_authors(self, tree: ET) -> str:
         """Concatenates all authors in a tree"""
         if tree.find("Article/AuthorList") is None:
             return None
         authors = ""
         for author in tree.findall("Article/AuthorList/Author"):
-            lastname = author.find("LastName").text
-            forename = author.find("ForeName").text
+            lastname = author.find("LastName").text if author.find("LastName") is not None else ""
+            forename = author.find("ForeName").text if author.find("ForeName") is not None else ""
             authors += f"{lastname} {forename}, "
         return authors[:-2]
     
@@ -67,8 +67,8 @@ class PubmedSearcher:
         for xml_article in xml_articles:
             id = xml_article.find("PMID").text
             title = xml_article.find("Article/ArticleTitle").text
-            abstract = self.concat_abstract(xml_article)
-            authors = self.concat_authors(xml_article)
+            abstract = self.find_abstract(xml_article)
+            authors = self.find_authors(xml_article)
             doi = self.find_doi(xml_article)
             url = f"https://pubmed.ncbi.nlm.nih.gov/{id}"
             articles.append(Article(id, title, abstract, authors, doi, url))
