@@ -7,7 +7,7 @@ import pandas as pd
 from PubmedSearcher import PubmedSearcher
 
 st.sidebar.title("Pubmed Assistant")
-st.sidebar.image("./pubmed_assistant.png")
+st.sidebar.image("./images/pubmed_assistant.png")
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
